@@ -18,6 +18,14 @@ if [ -d $CONFIG_DIR ]; then
 			mkdir -p "$BACKUP_DIR"
 			mv "$CONFIG_DIR" "$BACKUP_DIR/nvim$(date +%s)"
 			echo "Backup moved to $BACKUP_DIR"
+			echo "Cloning BasicsNVim..."
+			git clone https://github.com/MilakyS/BasicsNVim.git "$CONFIG_DIR"
+
+			echo "Installing plugins..."
+			nvim --headless +Lazy! +qa
+
+			echo "BasicsNVim installed successfully!"
+			echo "Thanks for installing my config :>"
 			;;
 		[Cc]*)
 			echo "Installation cancelled"
@@ -28,14 +36,14 @@ if [ -d $CONFIG_DIR ]; then
 			sleep 7	
 			rm -rf "$CONFIG_DIR"
 			echo "$CONFIG_DIR Removed"
+			echo "Cloning BasicsNVim..."
+			git clone https://github.com/MilakyS/BasicsNVim.git "$CONFIG_DIR"
+
+			echo "Installing plugins..."
+			nvim --headless +Lazy! +qa
+
+			echo "BasicsNVim installed successfully!"
+			echo "Thanks for installing my config :>"
 			;;
 		esac
 fi
-echo "Cloning BasicsNVim..."
-git clone https://github.com/MilakyS/BasicsNVim.git "$CONFIG_DIR"
-
-echo "Installing plugins..."
-nvim --headless +Lazy! +qa
-
-echo "BasicsNVim installed successfully!"
-echo "Thanks for installing my config :>"
