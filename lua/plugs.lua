@@ -1,5 +1,5 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", event = { "BufReadPost", "BufNewFile" } },
 	{"nvim-neo-tree/neo-tree.nvim",
     	branch = "v3.x",
 	cmd = "Neotree",
