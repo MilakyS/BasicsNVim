@@ -77,6 +77,7 @@ return {
   {
   	 "nvim-telescope/telescope.nvim",
   	 dependencies = { "nvim-telescope/telescope-ui-select.nvim" },
+	 cmd = "Telescope",
   	 config = function()
     	 	require("telescope").setup({
       	 		extensions = {
