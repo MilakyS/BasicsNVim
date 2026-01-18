@@ -1,5 +1,14 @@
 return {
-	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "c", "cpp", "python", "lua", "vim", "vimdoc", "query" },
+				highlight = { enable = true },
+			})
+		end,
+	},
 	{"nvim-neo-tree/neo-tree.nvim",
     	branch = "v3.x",
 	cmd = "Neotree",
@@ -45,6 +54,8 @@ return {
     require('conform').setup({
       formatters_by_ft = {
         python = { "isort", "black" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
       },
       format_on_save = {
         timeout_ms = 500,
@@ -58,6 +69,7 @@ return {
   opts = {
 	  ensure_installed = {
 		  "pyright",
+		  "clangd",
 	  },
   },
   },
@@ -87,6 +99,50 @@ return {
     		require("telescope").load_extension("ui-select")
   	end
 },
+  {
+    "mfussenegger/nvim-dap",
+    ft = { "c", "cpp" },
+    config = function()
+      local dap = require("dap")
+      dap.listeners.before.attach.dapui_config = function()
+        require("dapui").open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        require("dapui").open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        require("dapui").close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        require("dapui").close()
+      end
+
+      -- Keymaps
+      vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+      vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+      vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+      vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+      vim.keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end)
+      vim.keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end)
+    end
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    ft = { "c", "cpp" },
+    config = function()
+      require("dapui").setup()
+    end
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    ft = { "c", "cpp" },
+    dependencies = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
+    opts = {
+      ensure_installed = { "codelldb" },
+      handlers = {},
+    },
+  },
 
 }
 
